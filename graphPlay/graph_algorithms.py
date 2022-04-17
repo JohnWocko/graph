@@ -68,8 +68,6 @@ def extended_dfs(graph, v):
                     dfs_util(graph,v, visited)
 
 
-            print(f' - Nodes with 0 degree {disconnected}\n')
-
 def bfs(graph, vertex):
     if v not in graph.node_list:
             print('Not in graph')
@@ -81,13 +79,51 @@ def bfs(graph, vertex):
         print(vertex, end = ' ')
 
 
+# Sourced from https://www.geeksforgeeks.org/detect-cycle-in-a-graph/#:~:
+# text=To%20detect%20cycle%2C%20check%20for,a%20cycle%20in%20the%20tree.
+def isCyclicUtil(graph, v, visited, recStack):
+
+       # Mark current node as visited and
+       # adds to recursion stack
+       visited[v] = True
+       recStack[v] = True
+
+       # Recur for all neighbours
+       # if any neighbour is visited and in
+       # recStack then graph is cyclic
+       for i,neighbour in enumerate(graph.node_list[v][0]):
+           if visited[i] == False:
+               if isCyclicUtil(graph, i, visited, recStack) == True:
+                   return True
+           elif recStack[i] == True:
+               return True
+
+        # The node needs to be poped from
+        # recursion stack before function ends
+       recStack[v] = False
+       return False
+
+    # Returns true if graph is cyclic else false
+def isCyclic(graph):
+        visited = [False] * (graph.size + 1)
+        recStack = [False] * (graph.size + 1)
+        for node in range(graph.size):
+
+            if visited[node] == False:
+                if isCyclicUtil(graph,node,visited,recStack) == True:
+                    return True
+        return False
+
+
+
+
 
 
 def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
     vertices= graph.get_vertex_list()
-    print(vertices)
+
     colours = OrderedDict()
     colours[0] = graph.node_list[start]
 
@@ -96,7 +132,7 @@ def mitm_algorithm(graph):
 
     while start <= end: # middle == graph.size/2
         if graph.get_degree(start) == 0:
-            print(graph.node_list[start])
+            print(graph.node_list[start][0])
         #print(colours[6])
         end-=1
 

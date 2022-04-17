@@ -1,4 +1,4 @@
-
+import sys
 
 '''
 
@@ -9,7 +9,7 @@
 
 # Graph structure class
 class Graph:
-    def __init__(self, nodes=1):
+    def __init__(self, size = 0):
         # Stored in a linkedlist type structure, where the dictionary key is a vertex and the value
         # is a list containing two data objects: the first being a set that represents the vertices
         # connected to this key vertex, and the second that can store data values within a list
@@ -19,19 +19,18 @@ class Graph:
         # To access a nodes values, use node_list[node][1]
 
         self.node_list = {}
-        self.nodes = nodes
-        self.size = 0
+        self.size = size
 
         # Sets the value of each node within the dictionary to an empty node_list
         # and a list to store values, the adjacent values will be added
         # upon object creation
 
-        if isinstance(self.nodes, int) :
-            for node in range(self.nodes):
+        if isinstance(self.size, int) :
+            for node in range(self.size):
                 self.node_list[node] =[set(), []]
                 self.size +=1
         else:
-            for node in self.nodes:
+            for node in self.size:
                 self.node_list[node] =[set(), []]
                 self.size +=1
     # Returns the graph size and its Adjacency list
@@ -39,7 +38,7 @@ class Graph:
         return f'\nGraph of size: {self.size} \n{self.node_list }'
 
     def __del__(self):
-        del  self.node_list, self.nodes, self.size
+        del  self.node_list, self.size
 
     def __call__(self, *args):
         temp_node_list = []
@@ -73,10 +72,11 @@ class Graph:
         # adjacent and the use object of a set means no duplicates and it will retain order
         if not self.node_check(node):
             self.add_node(node)
-        elif not self.node_check(edge):
+
+        if not self.node_check(edge):
             self.add_node(edge)
 
-        if edge != node and directed ==False:
+        if edge != node and directed == False:
             self.node_list[node][0].add(edge)
             self.node_list[edge][0].add(node)
 
@@ -105,6 +105,32 @@ class Graph:
         for node in self.node_list:
             degree_set.append(self.get_degree(node))
         return degree_set
+
+    def max_degree(self):
+       degree_set = self.get_degree_set()
+       max_degree =0
+       location = ''
+       keys = list(self.node_list.keys())
+
+       for i,degree in enumerate(degree_set):
+           if degree > max_degree:
+                max_degree = degree
+                location = i
+       print(f'Max degree of {max_degree} at index {location} or vertex {keys[location]}')
+       return location,keys[location], max_degree
+
+    def min_degree(self):
+       degree_set = self.get_degree_set()
+       min_degree =sys.maxsize
+       location = ''
+       keys = list(self.node_list.keys())
+
+       for i,degree in enumerate(degree_set):
+           if degree < min_degree:
+                min_degree = degree
+                location = i
+       print(f'Min degree of {min_degree} at index {location} or vertex {keys[location]}')
+       return location, keys[location], min_degree
 
 
     def get_vertex_list(self):
@@ -153,34 +179,3 @@ class Graph:
                 else:
                     print(' - |', end='')
 
-    def cycle_check(self, vertex):
-        for node in self.node_list[vertex][0]:
-            if vertex in self.node_list[node][0]:
-                print(f'\nvertex {vertex} has a cycle with vertex {node}', end = ' ' )
-                #return True #vertex in self.node_list[node]
-
-            else:  #
-                self.cycle_check(node)
-
-        print(f'\nNo cycle detected for vertex {vertex}',end = ' ')
-        return False
-
-    def graph_cyclic(self):
-        for node in self.node_list:
-            self.cycle_check(node)
-
-
-g = Graph(4)
-g.add_edge(0, 1)
-g.add_edge(0, 2)
-g.add_edge(1, 2)
-g.add_edge(2, 3)
-g.add_edge(0, 'h')
-g.add_edge(0, 'f', True)
-g.display_adj_list()
-g.display_adj_matrix()
-g.cycle_check('f')
-g.graph_cyclic()
-g.add_edge('f', 'h', True)
-g.display_adj_matrix()
-g.graph_cyclic()
