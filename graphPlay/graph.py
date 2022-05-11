@@ -1,5 +1,7 @@
 import sys
-
+import networkx as nx
+import random
+import matplotlib.pyplot as plt
 '''
 
 
@@ -165,12 +167,12 @@ class Graph:
             self.node_list[node][1].append(value)
 
     def display_adj_list(self):
-        print('Adjacency List')
+        print('\nAdjacency List')
         for node in self.node_list:
             print('\t',node,'-->',self.node_list[node][0])
 
     def display_adj_matrix(self):
-        print('Adjacency Matrix')
+        print('\nAdjacency Matrix')
         for node in self.node_list:
             print('\n',node,'|| ', end='')
             for other_node in self.node_list:
@@ -178,4 +180,42 @@ class Graph:
                     print(' X |', end='')
                 else:
                     print(' - |', end='')
+
+
+
+    def convert(self):
+        graph = nx.Graph()
+        for node in self.node_list:
+            print('\t',node,'-->',self.node_list[node][0])
+            for connected_node in self.node_list[node][0]:
+                graph.add_edge(node,connected_node)
+        nx.draw(graph, with_labels=True)
+        plt.show()
+        print(nx.nodes(graph))
+        print(nx.equitable_color(graph, 60))
+
+
+    def is_fibbinary_num(n):
+        if(int(n) & (int(n)>>1) == 0):
+            return True
+        else:
+            return False
+
+    def hamming_distance(num1, num2):
+        x = num1 ^ num2
+        set_bits = 0
+
+        while (x > 0):
+            set_bits += x & 1
+            x >>= 1
+        return set_bits
+
+    def fib_graph( n):
+        fib_graph = Graph(n)
+        for i in range(0,n+1):
+            for j in range(0, n+1):
+                if ((Graph.hamming_distance(i,j) == 1 ) & Graph.is_fibbinary_num(i) & Graph.is_fibbinary_num(j)):
+                    fib_graph.add_edge(i,j)
+
+        return fib_graph
 
