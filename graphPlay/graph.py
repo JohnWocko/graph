@@ -30,11 +30,10 @@ class Graph:
         if isinstance(self.size, int) :
             for node in range(self.size):
                 self.node_list[node] =[set(), []]
-                self.size +=1
         else:
             for node in self.size:
                 self.node_list[node] =[set(), []]
-                self.size +=1
+
     # Returns the graph size and its Adjacency list
     def __str__(self):
         return f'\nGraph of size: {self.size} \n{self.node_list }'
@@ -186,13 +185,11 @@ class Graph:
     def convert(self):
         graph = nx.Graph()
         for node in self.node_list:
-            print('\t',node,'-->',self.node_list[node][0])
+            graph.add_node(node)
             for connected_node in self.node_list[node][0]:
                 graph.add_edge(node,connected_node)
         nx.draw(graph, with_labels=True)
         plt.show()
-        print(nx.nodes(graph))
-        print(nx.equitable_color(graph, 60))
 
 
     def is_fibbinary_num(n):
@@ -213,8 +210,12 @@ class Graph:
     def fib_graph( n):
         fib_graph = Graph(n)
         for i in range(0,n+1):
+            if not Graph.is_fibbinary_num(i):
+                continue
             for j in range(0, n+1):
-                if ((Graph.hamming_distance(i,j) == 1 ) & Graph.is_fibbinary_num(i) & Graph.is_fibbinary_num(j)):
+                if not Graph.is_fibbinary_num(j):
+                    continue
+                elif ((Graph.hamming_distance(i,j) == 1 )):
                     fib_graph.add_edge(i,j)
 
         return fib_graph

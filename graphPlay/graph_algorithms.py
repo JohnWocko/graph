@@ -123,6 +123,7 @@ def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
     vertices= graph.get_vertex_list()
+    print(vertices)
 
     colours = OrderedDict()
     colours[0] = graph.node_list[start]
@@ -131,8 +132,9 @@ def mitm_algorithm(graph):
         colours[1] = graph.node_list[start]
 
     while start <= end: # middle == graph.size/2
-        if graph.get_degree(start) == 0:
-            print(graph.node_list[start][0])
-        #print(colours[6])
+        print(graph.node_list[start][0], type(graph.node_list[start][0]),colours[1][0], type(colours[1]))
+        if graph.get_degree(start) == 0 or graph.node_list[start][0].isdisjoint(colours[1][0]) :
+            print(graph.node_list[start])
+            print(colours[6])
         end-=1
 

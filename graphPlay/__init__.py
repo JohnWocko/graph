@@ -2,11 +2,13 @@ from graph import Graph
 import graph_algorithms
 import random
 graphs = []
-f = Graph.fib_graph(100)
-graphs.append(f)
+
 def create_graph(graphs):
     if not graphs:
         print('\n No graphs stored...')
+
+        f = Graph.fib_graph(int(input('\nFib num? Y/N'))+1)
+        graphs.append(f)
         answer =str(input('\nCreate a random one? Y/N'))
 
         if answer.upper() == 'Y':
@@ -47,7 +49,9 @@ def console():
         if (choice.upper() =='M'):
             for graph in graphs:
                 graph.convert()
-                graph.display_adj_matrix()
+                #graph.display_adj_matrix()
+        if (choice.upper() =='Q'):
+            break
 
 
 
@@ -55,7 +59,7 @@ console()
 
 
 
-
+g = graphs[0]
 print(g)
 
 graph_algorithms.dfs(g,'h')
@@ -64,5 +68,5 @@ g.display_adj_list()
 g.display_adj_matrix()
 
 print(graph_algorithms.isCyclic(g))
-#graph_algorithms.mitm_algorithm(g)
+graph_algorithms.mitm_algorithm(g)
 print('\n',g, g.max_degree(), g.min_degree())
