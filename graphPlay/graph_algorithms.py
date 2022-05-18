@@ -103,7 +103,7 @@ def isCyclicUtil(graph, v, visited, recStack):
        recStack[v] = False
        return False
 
-    # Returns true if graph is cyclic else false
+# Returns true if graph is cyclic else false
 def isCyclic(graph):
         visited = [False] * (graph.size + 1)
         recStack = [False] * (graph.size + 1)
@@ -114,27 +114,59 @@ def isCyclic(graph):
                     return True
         return False
 
-
-
-
-
-
+# Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
 def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
-    vertices= graph.get_vertex_list()
-    print(vertices)
+    vertices = graph.get_nodes()
 
     colours = OrderedDict()
-    colours[0] = graph.node_list[start]
+    colours[0] = {0}
 
     if graph.size > 1:
-        colours[1] = graph.node_list[start]
-
+        colours[1] = {end+1}
     while start <= end: # middle == graph.size/2
-        print(graph.node_list[start][0], type(graph.node_list[start][0]),colours[1][0], type(colours[1]))
-        if graph.get_degree(start) == 0 or graph.node_list[start][0].isdisjoint(colours[1][0]) :
-            print(graph.node_list[start])
-            print(colours[6])
-        end-=1
+        if graph.get_degree(start) == 0 or graph.node_list[start][0].isdisjoint(colours[1]) :
+            colours[1].add(start)
+        elif graph.node_list[start][0].isdisjoint(colours[0]):
+            colours[0].add(start)
 
+        else:
+            colour = 0
+            c = 0
+            for i in range(len(colours)):
+                if graph.node_list[start][0].isdisjoint(colours[i]):
+                    colours[i].add(start)
+                    c = 1
+                    break
+            if c ==0:
+                colours[len(colours)] = {start}
+
+        if start != end:
+            if graph.get_degree(end) == 0 or graph.node_list[end][0].isdisjoint(colours[0]) :
+                colours[0].add(end)
+            elif graph.node_list[end][0].isdisjoint(colours[1]):
+                colours[1].add(end)
+
+            else:
+                colour = 0
+                c = 0
+                for i in range(len(colours)):
+                    if graph.node_list[end][0].isdisjoint(colours[i]):
+                        colours[i].add(end)
+                        c = 1
+                        break
+                if c ==0:
+                    colours[len(colours)] = {end}
+
+        start +=1
+        end-=1
+    get_colouring(colours)
+
+def get_colouring(colours):
+    print(f'\nColouring of graph with {len(colours.keys())} colours:')
+    for colour in colours.keys():
+        print('\n',colour, end = ' --> ')
+        for node in colours[colour]:
+            print (node, end =' ')
+    print('\n')

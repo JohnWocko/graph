@@ -107,6 +107,7 @@ class Graph:
             degree_set.append(self.get_degree(node))
         return degree_set
 
+    # needs to be updated to account for empty sets
     def max_degree(self):
        degree_set = self.get_degree_set()
        max_degree =0
@@ -118,7 +119,7 @@ class Graph:
                 max_degree = degree
                 location = i
        print(f'Max degree of {max_degree} at index {location} or vertex {keys[location]}')
-       return location,keys[location], max_degree
+       return keys[location], max_degree
 
     def min_degree(self):
        degree_set = self.get_degree_set()
@@ -131,7 +132,7 @@ class Graph:
                 min_degree = degree
                 location = i
        print(f'Min degree of {min_degree} at index {location} or vertex {keys[location]}')
-       return location, keys[location], min_degree
+       return keys[location], min_degree
 
 
     def get_vertex_list(self):
@@ -170,6 +171,12 @@ class Graph:
         for node in self.node_list:
             print('\t',node,'-->',self.node_list[node][0])
 
+    def get_nodes(self):
+        all_nodes = []
+        for node in self.node_list:
+            all_nodes.append(node)
+        return all_nodes
+
     def display_adj_matrix(self):
         print('\nAdjacency Matrix')
         for node in self.node_list:
@@ -185,7 +192,7 @@ class Graph:
     def convert(self):
         graph = nx.Graph()
         for node in self.node_list:
-            graph.add_node(node)
+            #graph.add_node(node)
             for connected_node in self.node_list[node][0]:
                 graph.add_edge(node,connected_node)
         nx.draw(graph, with_labels=True)
