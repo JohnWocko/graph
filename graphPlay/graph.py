@@ -214,12 +214,12 @@ class Graph:
             x >>= 1
         return set_bits
 
-    def fib_graph( n):
-        fib_graph = Graph(n)
-        for i in range(0,n+1):
+    def fib_graph(nodes):
+        fib_graph = Graph(nodes)
+        for i in range(0, nodes + 1):
             if not Graph.is_fibbinary_num(i):
                 continue
-            for j in range(0, n+1):
+            for j in range(0, nodes + 1):
                 if not Graph.is_fibbinary_num(j):
                     continue
                 elif ((Graph.hamming_distance(i,j) == 1 )):
