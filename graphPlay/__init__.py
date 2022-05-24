@@ -8,27 +8,28 @@ def create_graph(graphs):
     if len(graphs) == 0:
         print('\n No graphs stored...')
 
-    answer =str(input('\nCreate a random one? - R\nCreate the Soifer Graph? - S\nCreate Fib Graph? - F'))
+    answer = str(input('\nCreate a random Graph? - R\nCreate the Soifer Graph? - S\nCreate Fib Graph? - '
+    +'F\nReturn to main menu - Q'))
 
     if answer.upper() == 'R':
-        randNode = random.randint(0,20)
-        g = Graph(randNode)
-
-        for node in g.node_list:
-            for other_node in g.node_list:
-                if ((node + other_node) % 3 == 0):
-                    g.add_edge(node, other_node)
-
-
+        try:
+            randNode = random.randint(3, int(input('\nRandom upper limit? - (3 - 100)')))
+        except:
+            print('Invalid Input:\nInput not an int')
+            create_graph(graphs)
+        else:
+            g = Graph(randNode)
+            for node in g.node_list:
+                if bool(random.getrandbits(1)):
+                    for other_node in g.node_list:
+                        if bool(random.getrandbits(1)):
+                            g.add_edge(node, other_node)
+                        else:
+                            continue
+                else:
+                    continue
         graphs.append(g)
 
-    """     g2 = Graph()
-        g2.add_edge(0, 1, True)
-        g2.add_edge(2, 1, True)
-        g2.add_node('h')
-        g2.add_edge(3, 'h')
-        g2.add_edge('h', 5, False)
-        graphs.append(g2) """
 
 
 
@@ -64,6 +65,8 @@ def create_graph(graphs):
         s.add_edge(7, 8)
         graphs.append(s)
 
+    if answer.upper() == 'Q':
+        print(*graphs)
 
 def console():
 
@@ -94,7 +97,7 @@ def console():
             for graph in graphs:
                 print(graph)
                 graph.display_adj_list()
-        if choice.upper() == 'A 'and len(graphs) != 0:
+        if choice.upper() == 'A' and len(graphs) != 0:
             for graph in graphs:
                 print(graph)
                 graph_algorithms.mitm_algorithm(graph)
