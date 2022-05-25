@@ -78,6 +78,7 @@ def console():
         +'\nView all Graphs via Adjacency Matrix? - (M)'
         +'\nView all Graphs via networkx module visualisation? - (N)'
         +'\nColour all Graphs via MITM Algorithm? - (A)'
+        +'\nColour Simulations? - (S)'
         +'\nExit? - (E)')
 
         print('')
@@ -102,12 +103,35 @@ def console():
                 print(graph)
                 graph_algorithms.mitm_algorithm(graph)
 
-
+        if choice.upper() == 'S':
+            try:
+                for count,i in enumerate(range(15,20)):
+                    f = Graph.fib_graph(i*count)
+                    graphs.append(f)
+            except:
+                print('Invalid Input:\nInput not an int')
+            else:
+                for graph in graphs:
+                    print(graph)
+                    graph_algorithms.mitm_algorithm(graph)
 
 
 console()
+graph1 = Graph.read_graph({0:[[1],['hello']]})
+graph2 = Graph.read_graph({0:[[1]]})
 
+graph3 = Graph.read_graph({0:[[1,2,3,4,5,6,77]], 5:[[1,6,8,4]]})
 
+graphs.append(graph1)
+
+graphs.append(graph3)
+graphs.append( graph2)
+
+for graph in graphs:
+    print(graph)
+    graph_algorithms.mitm_algorithm(graph)
+
+"""
 
 g = graphs[0]
 print(g)
@@ -120,3 +144,5 @@ print(graph_algorithms.isCyclic(g))
 graph_algorithms.mitm_algorithm(graphs[0])
 graph_algorithms.mitm_algorithm(graphs[1])
 print('\n',g, g.max_degree(), g.min_degree())
+
+"""

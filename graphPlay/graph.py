@@ -187,8 +187,6 @@ class Graph:
                 else:
                     print(' - |', end='')
 
-
-
     def convert(self):
         graph = nx.Graph()
         for node in self.node_list:
@@ -226,4 +224,32 @@ class Graph:
                     fib_graph.add_edge(i,j)
 
         return fib_graph
+
+    def read_graph(graph_structure):
+
+        if not isinstance(graph_structure, dict):
+            return False
+        else:
+            imported_graph = Graph()
+
+            if len(graph_structure[0]) == 2:
+                for key in graph_structure.keys():
+                    imported_graph.add_node(key)
+
+                    for node in graph_structure[key][0]:
+                        imported_graph.add_edge(key, node)
+
+                    for data in graph_structure[key][1]:
+                        imported_graph.add_value(key, data)
+
+            else:
+                for key in graph_structure.keys():
+                    imported_graph.add_node(key)
+
+                    for node in graph_structure[key][0]:
+                        imported_graph.add_edge(key, node)
+
+        print(imported_graph)
+        return imported_graph
+
 

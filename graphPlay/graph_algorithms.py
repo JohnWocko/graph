@@ -115,10 +115,12 @@ def isCyclic(graph):
         return False
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
+# so far has issues with graphs that doesn't have sucsessive nodes
 def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
     vertices = graph.get_nodes()
+    print(vertices, sorted(vertices))
 
     colours = OrderedDict()
     colours[0] = {0}
@@ -143,6 +145,7 @@ def mitm_algorithm(graph):
                 colours[len(colours)] = {start}
 
         if start != end:
+            print( end)
             if graph.get_degree(end) == 0 or graph.node_list[end][0].isdisjoint(colours[0]) :
                 colours[0].add(end)
             elif graph.node_list[end][0].isdisjoint(colours[1]):
