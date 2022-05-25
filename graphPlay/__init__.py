@@ -125,7 +125,7 @@ graph3 = Graph.read_graph({0:[[1,2,3,4,5,6,77]], 5:[[1,6,8,4]]})
 graphs.append(graph1)
 
 graphs.append(graph3)
-graphs.append( graph2)
+graphs.append(graph2)
 
 for graph in graphs:
     print(graph)
