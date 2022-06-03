@@ -1,6 +1,7 @@
 import sys
 import networkx as nx
 import random
+import ast
 import matplotlib.pyplot as plt
 '''
 
@@ -226,12 +227,8 @@ class Graph:
         return fib_graph
 
     def read_graph(graph_structure):
-
-        if not isinstance(graph_structure, dict):
-            return False
-        else:
+        if isinstance(graph_structure, dict):
             imported_graph = Graph()
-
             if len(graph_structure[0]) == 2:
                 for key in graph_structure.keys():
                     imported_graph.add_node(key)
@@ -241,15 +238,19 @@ class Graph:
 
                     for data in graph_structure[key][1]:
                         imported_graph.add_value(key, data)
-
             else:
                 for key in graph_structure.keys():
                     imported_graph.add_node(key)
 
                     for node in graph_structure[key][0]:
                         imported_graph.add_edge(key, node)
+            return imported_graph
 
-        print(imported_graph)
-        return imported_graph
+        elif  isinstance(graph_structure, str):
+            return Graph.read_graph(ast.literal_eval(graph_structure))
+        else:
+            return (type(graph_structure),False)
+
+
 
 

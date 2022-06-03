@@ -115,52 +115,52 @@ def isCyclic(graph):
         return False
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
-# so far has issues with graphs that doesn't have sucsessive nodes
+# so far has issues with graphs that doesn't have successive nodes
 def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
-    vertices = graph.get_nodes()
-    print(vertices, sorted(vertices))
+    vertices = sorted(graph.get_nodes())
+    print(graph.get_nodes(),vertices)
 
     colours = OrderedDict()
-    colours[0] = {0}
+    colours[0] = {vertices[0]}
 
     if graph.size > 1:
-        colours[1] = {end+1}
+        colours[1] = {vertices[end+1]}
     while start <= end: # middle == graph.size/2
-        if graph.get_degree(start) == 0 or graph.node_list[start][0].isdisjoint(colours[1]) :
-            colours[1].add(start)
-        elif graph.node_list[start][0].isdisjoint(colours[0]):
-            colours[0].add(start)
+        if graph.get_degree(vertices[start]) == 0 or graph.node_list[vertices[start]][0].isdisjoint(colours[1]) :
+            colours[1].add(vertices[start])
+        elif graph.node_list[vertices[start]][0].isdisjoint(colours[0]):
+            colours[0].add(vertices[start])
 
         else:
             colour = 0
             c = 0
             for i in range(len(colours)):
-                if graph.node_list[start][0].isdisjoint(colours[i]):
-                    colours[i].add(start)
+                if graph.node_list[vertices[start]][0].isdisjoint(colours[i]):
+                    colours[i].add(vertices[start])
                     c = 1
                     break
             if c ==0:
-                colours[len(colours)] = {start}
+                colours[len(colours)] = {vertices[start]}
 
         if start != end:
-            print( end)
-            if graph.get_degree(end) == 0 or graph.node_list[end][0].isdisjoint(colours[0]) :
-                colours[0].add(end)
-            elif graph.node_list[end][0].isdisjoint(colours[1]):
-                colours[1].add(end)
+            print( vertices[end])
+            if graph.get_degree(vertices[end]) == 0 or graph.node_list[vertices[end]][0].isdisjoint(colours[0]) :
+                colours[0].add(vertices[end])
+            elif graph.node_list[vertices[end]][0].isdisjoint(colours[1]):
+                colours[1].add(vertices[end])
 
             else:
                 colour = 0
                 c = 0
                 for i in range(len(colours)):
-                    if graph.node_list[end][0].isdisjoint(colours[i]):
-                        colours[i].add(end)
+                    if graph.node_list[vertices[end]][0].isdisjoint(colours[i]):
+                        colours[i].add(vertices[end])
                         c = 1
                         break
                 if c ==0:
-                    colours[len(colours)] = {end}
+                    colours[len(colours)] = {vertices[end]}
 
         start +=1
         end-=1
