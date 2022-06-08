@@ -79,48 +79,12 @@ def bfs(graph, vertex):
         print(vertex, end = ' ')
 
 
-# Sourced from https://www.geeksforgeeks.org/detect-cycle-in-a-graph/#:~:
-# text=To%20detect%20cycle%2C%20check%20for,a%20cycle%20in%20the%20tree.
-def isCyclicUtil(graph, v, visited, recStack):
-
-       # Mark current node as visited and
-       # adds to recursion stack
-       visited[v] = True
-       recStack[v] = True
-
-       # Recur for all neighbours
-       # if any neighbour is visited and in
-       # recStack then graph is cyclic
-       for i,neighbour in enumerate(graph.node_list[v][0]):
-           if visited[i] == False:
-               if isCyclicUtil(graph, i, visited, recStack) == True:
-                   return True
-           elif recStack[i] == True:
-               return True
-
-        # The node needs to be poped from
-        # recursion stack before function ends
-       recStack[v] = False
-       return False
-
-# Returns true if graph is cyclic else false
-def isCyclic(graph):
-        visited = [False] * (graph.size + 1)
-        recStack = [False] * (graph.size + 1)
-        for node in range(graph.size):
-
-            if visited[node] == False:
-                if isCyclicUtil(graph,node,visited,recStack) == True:
-                    return True
-        return False
-
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
 # so far has issues with graphs that doesn't have successive nodes
 def mitm_algorithm(graph):
     start = 1
     end = graph.size-2
     vertices = sorted(graph.get_nodes())
-    print(graph.get_nodes(),vertices)
 
     colours = OrderedDict()
     colours[0] = {vertices[0]}

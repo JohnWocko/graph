@@ -33,7 +33,7 @@ def create_graph(graphs):
     if answer.upper() == 'C':
         try:
             created_graph = Graph()
-            print('Please enter a node list in the form \'1234\' where each number signifies a node/vertex:\n')
+            print('Please enter a node list in the form \'1234\' where each character signifies a node/vertex:\n')
             nodes = input('Please enter node list:\n')
             for node in sorted(nodes):
                 created_graph.add_node(node)
@@ -139,7 +139,12 @@ def console():
 
 
 console()
-graph1 = Graph.read_graph({0:[[1],['hello']]})
+graph_algorithms.dfs(graphs[0],'h')
+graph_algorithms.extended_dfs(graphs[0],'h')
+
+
+print(graph_algorithms.isCyclic(graphs[0]))
+""" graph1 = Graph.read_graph({0:[[1],['hello']]})
 graph2 = Graph.read_graph({0:[[1]]})
 graph3 = Graph.read_graph({0:[[x for x in range(0,10)]],1:[[x for x in range(0,10)]],2:[[x for x in range(0,10)]],
 3:[[x for x in range(0,10)]],4:[[x for x in range(0,10)]],5:[[x for x in range(0,10)]], 6:[[1,6,8,4]]})
@@ -150,12 +155,14 @@ graphs.append(graph1)
 graphs.append(graph3)
 graphs.append(graph2)
 graphs.append(graph4)
-print('Here ',graph4)
+print('Here ',graph4) """
 
+"""
 for graph in graphs:
     print(graph)
     graph_algorithms.mitm_algorithm(graph)
     graph.convert()
+ """
 
 
 """
