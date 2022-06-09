@@ -3,15 +3,20 @@ import networkx as nx
 import random
 import ast
 import matplotlib.pyplot as plt
-'''
 
-
-
-'''
 
 
 # Graph structure class
 class Graph:
+    """
+     Graph structure represented in a linked list structure. Consists of a set of vertices/nodes that are adjacent
+     other nodes via edges.
+
+     This class contains methos in which to create, modify and delete these graph structures in addition to presenting them.
+
+    """
+
+
     def __init__(self, size = 0):
         # Stored in a linkedlist type structure, where the dictionary key is a vertex and the value
         # is a list containing two data objects: the first being a set that represents the vertices

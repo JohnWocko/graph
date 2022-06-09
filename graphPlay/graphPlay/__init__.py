@@ -8,8 +8,8 @@ def create_graph(graphs):
     if len(graphs) == 0:
         print('\n No graphs stored...')
 
-    answer = str(input('\nCreate a random Graph? - R\nCreate the Soifer Graph? - S\nCreate Fib Graph? - '
-    +'F\nReturn to main menu - Q'))
+    answer = str(input('\nCreate a Graph using input? - C\nCreate a random Graph? - R\nCreate the Soifer Graph? - S\nCreate Fib Graph? - '
+    +'F\nReturn to main menu - Q\n'))
 
     if answer.upper() == 'R':
         try:
@@ -45,8 +45,9 @@ def create_graph(graphs):
                         created_graph.add_edge(node, adj_node)
                     else:
                         print('You\'ve put in a node that isn\'t in the graph')
+
         except:
-            print('Invalid Input:\nInput not an int')
+            print('Invalid Input')
             create_graph(graphs)
         else:
             print(created_graph)
@@ -85,7 +86,7 @@ def create_graph(graphs):
         graphs.append(s)
 
     if answer.upper() == 'Q':
-        print(*graphs)
+        print(Graph.__doc__,*graphs)
 
 def console():
 
@@ -98,6 +99,7 @@ def console():
         +'\nView all Graphs via networkx module visualisation? - (N)'
         +'\nColour all Graphs via MITM Algorithm? - (A)'
         +'\nColour Simulations? - (S)'
+        +'\nClear Graphs? - (D)'
         +'\nExit? - (E)')
 
         print('')
@@ -136,6 +138,15 @@ def console():
                 for graph in graphs:
                     print(graph)
                     graph_algorithms.mitm_algorithm(graph)
+
+
+        if choice.upper() == 'D':
+            try:
+                graphs.clear()
+            except:
+                print('Could not delete graphs')
+            else:
+                print('Graphs emptied\n')
 
 
 console()
