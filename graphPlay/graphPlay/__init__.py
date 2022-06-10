@@ -1,6 +1,7 @@
 from graph import Graph
 import graph_algorithms
 import random
+import os
 graphs = []
 
 
@@ -98,7 +99,9 @@ def console():
         +'\nView all Graphs via Adjacency Matrix? - (M)'
         +'\nView all Graphs via networkx module visualisation? - (N)'
         +'\nColour all Graphs via MITM Algorithm? - (A)'
-        +'\nColour Simulations? - (S)'
+        +'\nColour Simulations? - (CS)'
+        +'\nSave Graphs? - (S)'
+        +'\nLoad Graphs? - (L)'
         +'\nClear Graphs? - (D)'
         +'\nExit? - (E)')
 
@@ -108,23 +111,28 @@ def console():
         if (choice.upper() =='M'  and len(graphs) != 0):
             for graph in graphs:
                 graph.display_adj_matrix()
+
         if (choice.upper() =='N'  and len(graphs) != 0):
             for graph in graphs:
                 graph.convert()
+
         if (choice.upper() =='E'):
             break
+
         if choice.upper() == 'C':
             create_graph(graphs)
+
         if choice.upper() == 'V':
             for graph in graphs:
                 print(graph)
                 graph.display_adj_list()
+
         if choice.upper() == 'A' and len(graphs) != 0:
             for graph in graphs:
                 print(graph)
                 graph_algorithms.mitm_algorithm(graph)
 
-        if choice.upper() == 'S':
+        if choice.upper() == 'CS':
             try:
                 for count,i in enumerate(range(int(input('\nPlease enter a lower limit ')),int(input('\nplease enter an upper limit')))):
                     if count == 0 or i == 0:
@@ -148,13 +156,42 @@ def console():
             else:
                 print('Graphs emptied\n')
 
+        if choice.upper() == 'S':
+            try:
+                for graph in graphs:
+                    graph.save_to_file()
+            except:
+                print('Not able to save graphs')
+            else:
+                print('Save achieved!')
+
+        if choice.upper() == 'L':
+            try:
+                if os.path.isfile("C:/Users/jon_w/PycharmProjects/pythonProject/graphPlay/graphs.txt"):
+                    with open('graphs.txt', 'r') as f:
+                        lines = f.readlines()
+                else:
+                    print('No file to load from\n')
+
+            except:
+                print('Issue loading graph(s) from file\n')
+
+            else:
+                for line in lines:
+                    graphs.append(Graph.read_graph(line))
+                    print('Graph loaded')
+                    print(*graphs)
+
+
+
+
 
 console()
+
 graph_algorithms.dfs(graphs[0],'h')
 graph_algorithms.extended_dfs(graphs[0],'h')
 
 
-print(graph_algorithms.isCyclic(graphs[0]))
 """ graph1 = Graph.read_graph({0:[[1],['hello']]})
 graph2 = Graph.read_graph({0:[[1]]})
 graph3 = Graph.read_graph({0:[[x for x in range(0,10)]],1:[[x for x in range(0,10)]],2:[[x for x in range(0,10)]],
