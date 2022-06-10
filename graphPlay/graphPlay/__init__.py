@@ -170,6 +170,8 @@ def console():
                 if os.path.isfile("C:/Users/jon_w/PycharmProjects/pythonProject/graphPlay/graphs.txt"):
                     with open('graphs.txt', 'r') as f:
                         lines = f.readlines()
+                    for line in lines:
+                        graphs.append(Graph.read_graph(line))
                 else:
                     print('No file to load from\n')
 
@@ -177,10 +179,8 @@ def console():
                 print('Issue loading graph(s) from file\n')
 
             else:
-                for line in lines:
-                    graphs.append(Graph.read_graph(line))
-                    print('Graph loaded')
-                    print(*graphs)
+                print('Graph loaded:')
+                print(*graphs)
 
 
 

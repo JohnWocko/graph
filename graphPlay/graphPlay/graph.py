@@ -242,7 +242,6 @@ class Graph:
 
                 if len(graph_structure.keys()) == 2 :
                     for key in graph_structure.keys():
-                        print('sucsessfuj')
                         imported_graph.add_node(key)
 
                         for node in graph_structure[key][0]:
@@ -255,7 +254,6 @@ class Graph:
                         else:
                             imported_graph.add_value(key, '')
                 else:
-                    print('else')
                     for key in graph_structure.keys():
                         imported_graph.add_node(key)
 
