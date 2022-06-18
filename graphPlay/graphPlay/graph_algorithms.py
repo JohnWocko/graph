@@ -1,82 +1,65 @@
-
-
 import collections
 
 try:
     from collections import OrderedDict
 except ImportError:
     OrderedDict = dict
-def dfs_util(graph, v, visited):
-        # Mark the current node as visited
-        # and print it
-        if v not in visited and v in graph.node_list.keys():
-            visited.add(v)
-            print(v, end='  ')
 
-            # Recur for all the vertices
-            # adjacent to this vertex
+def simple_search(graph, target_node):
+    return target_node in graph.node_list.keys()
 
-            for node in graph.node_list[v][0]:
-                if node not in visited:
-                    dfs_util(graph,node, visited)
+def binary_search(graph, target_node):
+    for node in graph.node_list:
+        if target_node == node:
+            print(f'{target_node} found in graph using basic binary search')
+            return True
+    return False
 
+def improved_binary_search(node_list, target_node):
+    mid  = int(len(node_list)/2)
+    sorted_nodes = sorted(node_list)
+    print(sorted_nodes)
 
-
-    # The function to do dfs traversal. It uses
-    # recursive dfs_util()
-def dfs(graph, v):
-
-        # Create a set to store visited vertices
-        visited = set()
-
-        if v not in graph.node_list.keys():
-           print('Not in graph')
-        else:
-            # Call the recursive helper function
-            # to print dfs traversal
-            dfs_util(graph, v, visited)
-        print('')
-
-
-
-def extended_dfs(graph, v):
-        if v not in graph.node_list.keys():
-            print('Not in graph')
-        else:
-            # Create a set to store visited vertices and
-            # a set to store those without edges
-            visited = set()
-            disconnected = set()
-
-            # Call the recursive helper function
-            # to print dfs traversal
-
-            if len(graph.node_list[v][0] )<1:
-                disconnected.add(v)
-            dfs_util(graph, v, visited)
-
-            # Checks to see if all nodes of the graph has been visited
-
-            if visited != set(graph.node_list.keys()):
-                print('Not all vertices explored - ', end = ' ')
-                # If not, the unvisited nodes are added to a set to be transversed
-                unvisited = set(graph.node_list.keys()).difference(visited)
-                while (len(unvisited) >0):
-                    v = unvisited.pop()
-                    if graph.get_degree(v)<1:
-                        disconnected.add(v)
-                    dfs_util(graph,v, visited)
-
-
-def bfs(graph, vertex):
-    if v not in graph.node_list:
-            print('Not in graph')
+    if len(sorted_nodes) >=2:
+        if sorted_nodes[mid] == target_node:
+            print(target_node, ' Found using Divide and conquer BS')
+            return True
+        elif sorted_nodes[mid] <= target_node:
+            improved_binary_search(sorted_nodes[mid:], target_node)
+        elif sorted_nodes[mid] >= target_node:
+            improved_binary_search(sorted_nodes[:mid], target_node)
     else:
-        queue = []
-        explored = []
+        print(target_node,' Not in graph')
+        return False
 
-        explored.append(vertex)
-        print(vertex, end = ' ')
+def bfs(graph, starting_vertex, goal_vertex):
+    if starting_vertex in graph.node_list:
+        visited = set()
+        queue = []
+        visited.add(starting_vertex)
+        queue.append(starting_vertex)
+
+        while queue:
+
+            v = queue.pop(0)
+            print(v,' this here is yo num')
+
+            if v == goal_vertex:
+                print(f'{v} found')
+                return v
+            for adj_node in graph.get_adj_vertices(v):
+                if adj_node not in visited:
+                    if adj_node in queue:
+                        continue
+                    else:
+                        visited.add(adj_node)
+                        queue.append(adj_node)
+            print('In the Q: ', queue,' V: ', visited)
+
+
+    else:
+        print(f'Starting vertex/index: {starting_vertex} not in graph.')
+        return False
 
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time

@@ -141,6 +141,11 @@ class Graph:
        print(f'Min degree of {min_degree} at index {location} or vertex {keys[location]}')
        return keys[location], min_degree
 
+    def get_adj_vertices(self, vertex):
+        vertex_list = []
+        for node in self.node_list[vertex][0]:
+            vertex_list.append(node)
+        return vertex_list
 
     def get_vertex_list(self):
         vertex_list = []
