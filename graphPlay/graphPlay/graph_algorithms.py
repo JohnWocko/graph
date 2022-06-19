@@ -39,10 +39,10 @@ def bfs(graph, starting_vertex, goal_vertex):
         visited.add(starting_vertex)
         queue.append(starting_vertex)
 
+        print('Path taken: ',end ='')
         while queue:
-
             v = queue.pop(0)
-            print(v,' this here is yo num')
+            print(v,end= ' ')
 
             if v == goal_vertex:
                 print(f'{v} found')
@@ -54,12 +54,24 @@ def bfs(graph, starting_vertex, goal_vertex):
                     else:
                         visited.add(adj_node)
                         queue.append(adj_node)
-            print('In the Q: ', queue,' V: ', visited)
+            #print('In the Q: ', queue,' V: ', visited)
 
 
     else:
         print(f'Starting vertex/index: {starting_vertex} not in graph.')
         return False
+
+def dfs (graph, starting_vertex, visited =set()):
+    if starting_vertex in graph.node_list:
+            visited.add(starting_vertex)
+            print(visited, end = ' ')
+            for adj_node in graph.get_adj_vertices(starting_vertex):
+
+                if adj_node not in visited:
+                    print(' - ', adj_node)
+                    dfs(graph, adj_node, visited)
+                print(f'{adj_node } has been visited')
+
 
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
