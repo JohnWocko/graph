@@ -191,11 +191,20 @@ console()
 
 
 graph_algorithms.simple_search(graphs[1],'h')
-graph_algorithms.binary_search(graphs[1],'h')
+graph_algorithms.binary_search(graphs[1],8)
 graph_algorithms.improved_binary_search(graphs[1].node_list,8)
-graph_algorithms.improved_binary_search({1,2,5,7,4,3,56,7},8)
+graph_algorithms.improved_binary_search({1,2,5,7,4,3,56,7},7)
 graph_algorithms.bfs(graphs[1],6,  4)
 graph_algorithms.dfs(graphs[1],6)
+
+for node in graphs[1].node_list:
+    print('\n------------------------')
+    print(node,'\nbfs:', end=' ')
+    graph_algorithms.bfs(graphs[1],1,  node)
+    print('\ndfs:', end=' ')
+    graph_algorithms.dfs(graphs[1],node, set())
+    print('\n------------------------')
+
 
 
 

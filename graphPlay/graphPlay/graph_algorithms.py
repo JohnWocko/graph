@@ -6,30 +6,32 @@ except ImportError:
     OrderedDict = dict
 
 def simple_search(graph, target_node):
+    print(f'Simple/lazy Search on graph: {set(graph.node_list.keys())}\n\t{target_node} found: {target_node in graph.node_list.keys()}')
     return target_node in graph.node_list.keys()
 
 def binary_search(graph, target_node):
+    print('Binary Search on following vertices: ',graph.node_list.keys())
     for node in graph.node_list:
         if target_node == node:
-            print(f'{target_node} found in graph using basic binary search')
+            print(f'\t{target_node} found in graph using basic binary search')
             return True
+
+    print(f'\t{target_node} not found in graph {set(graph.node_list.keys())}')
     return False
 
 def improved_binary_search(node_list, target_node):
     mid  = int(len(node_list)/2)
     sorted_nodes = sorted(node_list)
-    print(sorted_nodes)
-
     if len(sorted_nodes) >=2:
         if sorted_nodes[mid] == target_node:
-            print(target_node, ' Found using Divide and conquer BS')
+            print(f'{target_node} Found using Divide and conquer BS')
             return True
         elif sorted_nodes[mid] <= target_node:
             improved_binary_search(sorted_nodes[mid:], target_node)
         elif sorted_nodes[mid] >= target_node:
             improved_binary_search(sorted_nodes[:mid], target_node)
     else:
-        print(target_node,' Not in graph')
+        print(f'Divide and conquer BS\n\t{target_node} Not in graph')
         return False
 
 def bfs(graph, starting_vertex, goal_vertex):
@@ -45,7 +47,7 @@ def bfs(graph, starting_vertex, goal_vertex):
             print(v,end= ' ')
 
             if v == goal_vertex:
-                print(f'{v} found')
+                print(f'\n\t{v} found')
                 return v
             for adj_node in graph.get_adj_vertices(v):
                 if adj_node not in visited:
@@ -61,17 +63,15 @@ def bfs(graph, starting_vertex, goal_vertex):
         print(f'Starting vertex/index: {starting_vertex} not in graph.')
         return False
 
-def dfs (graph, starting_vertex, visited =set()):
+def dfs (graph, starting_vertex, visited=set()):
     if starting_vertex in graph.node_list:
-            visited.add(starting_vertex)
-            print(visited, end = ' ')
-            for adj_node in graph.get_adj_vertices(starting_vertex):
-
-                if adj_node not in visited:
-                    print(' - ', adj_node)
-                    dfs(graph, adj_node, visited)
-                print(f'{adj_node } has been visited')
-
+        visited.add(starting_vertex)
+        print(f'\nAt {starting_vertex}, visited: {visited}')
+        for adj_node in graph.get_adj_vertices(starting_vertex):
+            if adj_node not in visited:
+                print(f'--> to unvisited {adj_node}', end=' ')
+                dfs(graph, adj_node, visited)
+            print(f'... {adj_node }', end=' ')
 
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
@@ -104,7 +104,7 @@ def mitm_algorithm(graph):
                 colours[len(colours)] = {vertices[start]}
 
         if start != end:
-            print( vertices[end])
+            print(vertices[end])
             if graph.get_degree(vertices[end]) == 0 or graph.node_list[vertices[end]][0].isdisjoint(colours[0]) :
                 colours[0].add(vertices[end])
             elif graph.node_list[vertices[end]][0].isdisjoint(colours[1]):
