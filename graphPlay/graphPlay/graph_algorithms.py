@@ -5,7 +5,9 @@ try:
 except ImportError:
     OrderedDict = dict
 
+
 def simple_search(graph, target_node):
+    ''' Takes in a graph structure and target node, returns True or False if node is in graph using in operator'''
     print(f'Simple/lazy Search on graph: {set(graph.node_list.keys())}\n\t{target_node} found: {target_node in graph.node_list.keys()}')
     return target_node in graph.node_list.keys()
 
@@ -54,6 +56,7 @@ def bfs(graph, starting_vertex, goal_vertex):
                     if adj_node in queue:
                         continue
                     else:
+                        print('Added: ',adj_node)
                         visited.add(adj_node)
                         queue.append(adj_node)
             #print('In the Q: ', queue,' V: ', visited)

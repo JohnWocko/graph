@@ -10,11 +10,23 @@ import os
 # Graph structure class
 class Graph:
     """
-     Graph structure represented in a linked list structure. Consists of a set of vertices/nodes that are adjacent
-     other nodes via edges.
+    A class to represent a Graph.
 
-     This class contains methos in which to create, modify and delete these graph structures in addition to presenting them.
+    ...
 
+    Attributes
+    ----------
+    name : str
+        first name of the person
+    surname : str
+        family name of the person
+    age : int
+        age of the person
+
+    Methods
+    -------
+    info(additional=""):
+        Prints the person's name and age.
     """
 
 

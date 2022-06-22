@@ -183,10 +183,8 @@ def console():
                 print(*graphs)
 
 
-
-
-
-console()
+if __name__ == '__main__':
+    console()
 
 
 
