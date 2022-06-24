@@ -130,7 +130,9 @@ def console():
         if choice.upper() == 'A' and len(graphs) != 0:
             for graph in graphs:
                 print(graph)
-                graph_algorithms.mitm_algorithm(graph)
+                colours = graph_algorithms.mitm_algorithm(graph)
+                graph.convert(colours)
+
 
         if choice.upper() == 'CS':
             try:
@@ -180,7 +182,7 @@ def console():
 
             else:
                 print('Graph loaded:')
-                print(*graphs)
+                print(*graphs, graphs[0].size)
 
 
 if __name__ == '__main__':

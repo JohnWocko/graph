@@ -1,27 +1,30 @@
 import sys
 import networkx as nx
 import random
+from random import randint
 import ast
 import matplotlib.pyplot as plt
 import os
 
 
-
-# Graph structure class
 class Graph:
     """
-    A class to represent a Graph.
+    A class to represent a Graph using a linked list like structure. It's structure is based within a dictionary,
+    where each key is a vertex and the value is a list that has two nested lists. the first nested list represents
+    vertices adjacent, the second is for data to be stored.
 
     ...
 
     Attributes
     ----------
-    name : str
-        first name of the person
-    surname : str
-        family name of the person
-    age : int
-        age of the person
+    node_list : set
+        Contains all nodes within a dictionary to represent a graph structure. Each key: value pair represents a
+        key/vertex/node paired with a value/list. Within this list are two items. Firstly a set to represent unique
+        adjacent vertices and then secondly, a list to hold data for the key node --> Node:[Adjacency set(), Data []]
+    size : int
+        This can be set when graph is created, or is based upon the length of keys within the node_list which can be
+        based on string characters.
+
 
     Methods
     -------
@@ -31,20 +34,22 @@ class Graph:
 
 
     def __init__(self, size = 0):
+        '''     '''
         # Stored in a linkedlist type structure, where the dictionary key is a vertex and the value
         # is a list containing two data objects: the first being a set that represents the vertices
         # connected to this key vertex, and the second that can store data values within a list
 
-        # To access a node use node_list[node]
-        # To access a nodes adj list, use node_list[node][0]
-        # To access a nodes values, use node_list[node][1]
+        # To access a node - node_list[node]
+        # To access a nodes adj list, - node_list[node][0]
+        # To access a nodes values, - node_list[node][1]
 
         self.node_list = {}
         self.size = size
 
-        # Sets the value of each node within the dictionary to an empty node_list
+        # Sets the value of each node within the dictionary to an empty set called node_list
         # and a list to store values, the adjacent values will be added
-        # upon object creation
+        # upon object creation. If an int is passed-in, then up to that number of nodes will be created or if a
+        # string is passed in, each individual char becomes a node.
 
         if isinstance(self.size, int) :
             for node in range(self.size):
@@ -55,39 +60,60 @@ class Graph:
 
     # Returns the graph size and its Adjacency list
     def __str__(self):
+        '''     '''
         return f'\nGraph of size: {self.size} \n{self.node_list }'
 
     def __del__(self):
+        '''     '''
         del  self.node_list, self.size
 
+    def __size__(self):
+        '''     '''
+        return len(self.node_list)
+
     def __call__(self, *args):
+        '''     '''
         temp_node_list = []
         for arg in args:
             temp_node_list.append(self.node_list[arg])
         return temp_node_list
 
     def __lt__(self, object2):
+        '''     '''
         return self.size < object2.size
+
     def __gt__(self, object2):
+        '''     '''
         return self.size > object2.size
+
     def __le__(self, object2):
+        '''     '''
         return self.size <= object2.size
+
     def __ge__(self, object2):
+        '''     '''
         return self.size >= object2.size
+
     def __eq__(self, object2):
+        '''     '''
         return self.node_list == object2.node_list
+
     def __ne__(self, object2):
+        '''     '''
         return self.node_list != object2.node_list
 
     def node_check(self, node):
+        '''     '''
         return node in self.node_list
 
     def edge_check(self, node, edge):
+        '''     '''
         return edge in self.node_list[node][0]
 
 
     # Method to add an edge to a vertexs' adjacency list
     def add_edge(self, node, edge, directed = False):
+        '''     '''
         # Undirected OR directed Graph with no self=cycles - So will only add if not already
         # adjacent and the use object of a set means no duplicates and it will retain order
         if not self.node_check(node):
@@ -107,6 +133,7 @@ class Graph:
 
     # Used to add a node to the graph structure with a default empty value list or with a value list
     def add_node(self, node, value = None):
+        '''     '''
         if not self.node_check(node):
             if value is None:
                 self.node_list[node] = [set(),[]]
@@ -118,9 +145,11 @@ class Graph:
             print('Error adding node, already exists')
 
     def get_degree(self, node):
+        '''     '''
         return len(self.node_list[node][0])
 
     def get_degree_set(self):
+        '''     '''
         degree_set = []
         for node in self.node_list:
             degree_set.append(self.get_degree(node))
@@ -128,6 +157,7 @@ class Graph:
 
     # needs to be updated to account for empty sets
     def max_degree(self):
+       '''     '''
        degree_set = self.get_degree_set()
        max_degree =0
        location = ''
@@ -141,6 +171,7 @@ class Graph:
        return keys[location], max_degree
 
     def min_degree(self):
+       '''     '''
        degree_set = self.get_degree_set()
        min_degree =sys.maxsize
        location = ''
@@ -154,12 +185,14 @@ class Graph:
        return keys[location], min_degree
 
     def get_adj_vertices(self, vertex):
+        '''     '''
         vertex_list = []
         for node in self.node_list[vertex][0]:
             vertex_list.append(node)
         return vertex_list
 
     def get_vertex_list(self):
+        '''     '''
         vertex_list = []
         for node in self.node_list:
             vertex_list.append(node)
@@ -168,6 +201,7 @@ class Graph:
 
     # Used to remove an edge from a vertices adjacency list
     def remove_edge(self, node, edge):
+        '''     '''
         if not self.edge_check(node, edge):
             self.node_list[node][0].remove(edge)
             self.node_list[edge][0].remove(node)
@@ -175,6 +209,7 @@ class Graph:
     # Removes a node and its adjacency list from the graph structure and all
     # mentions of it in other adjacency list entries
     def remove_node(self, node):
+        '''     '''
         if self.node_check(node):
             for other_node in self.node_list:
                # print('here ',other_node, node, self.node_list[other_node][0])
@@ -187,21 +222,25 @@ class Graph:
 
 
     def add_value(self, node, value):
+        '''     '''
         if node in self.node_list:
             self.node_list[node][1].append(value)
 
     def display_adj_list(self):
+        '''     '''
         print('\nAdjacency List')
         for node in self.node_list:
             print('\t',node,'-->',self.node_list[node][0])
 
     def get_nodes(self):
+        '''     '''
         all_nodes = []
         for node in self.node_list:
             all_nodes.append(node)
         return all_nodes
 
     def display_adj_matrix(self):
+        '''     '''
         print('\nAdjacency Matrix')
         for node in self.node_list:
             print('\n',node,'|| ', end='')
@@ -211,23 +250,44 @@ class Graph:
                 else:
                     print(' - |', end='')
 
-    def convert(self):
+    def convert(self, colours=1):
+        '''     '''
         graph = nx.Graph()
-        for node in self.node_list:
-            #graph.add_node(node)
-            for connected_node in self.node_list[node][0]:
-                graph.add_edge(node,connected_node)
-        nx.draw(graph, with_labels=True)
-        plt.show()
+
+        color_list = []
+        for i in range(len(colours)):
+            color_list.append('#%06X' % randint(0, 0xFFFFFF))
+        colour_list = []
+        if colours ==   1:
+            for node in self.node_list:
+                #graph.add_node(node)
+                for connected_node in self.node_list[node][0]:
+                    graph.add_edge(node,connected_node)
+            nx.draw(graph, node_color = 'blue', with_labels=True)
+            plt.show()
+        elif isinstance(colours, dict):
+            for node in self.node_list:
+                #graph.add_node(node)
+                for connected_node in self.node_list[node][0]:
+                    graph.add_edge(node,connected_node)
+
+            for g_node in graph.nodes():
+                for colour in colours.keys():
+                    if g_node in colours[colour]:
+                        colour_list.append(color_list[colour])
+            nx.draw(graph,node_color=colour_list, with_labels=True)
+            plt.show()
 
 
     def is_fibbinary_num(n):
+        '''     '''
         if(int(n) & (int(n)>>1) == 0):
             return True
         else:
             return False
 
     def hamming_distance(num1, num2):
+        '''     '''
         x = num1 ^ num2
         set_bits = 0
 
@@ -237,6 +297,7 @@ class Graph:
         return set_bits
 
     def fib_graph(nodes):
+        '''     '''
         fib_graph = Graph(nodes)
         for i in range(0, nodes + 1):
             if not Graph.is_fibbinary_num(i):
@@ -250,6 +311,7 @@ class Graph:
         return fib_graph
 
     def read_graph(graph_structure):
+        '''     '''
         if  isinstance(graph_structure, str):
             return Graph.read_graph(ast.literal_eval(graph_structure))
         else:
@@ -281,6 +343,7 @@ class Graph:
 
 
     def save_to_file(self):
+        '''     '''
         if not os.path.isfile("C:/Users/jon_w/PycharmProjects/pythonProject/graphPlay/graphs.txt"):
             with open('graphs.txt', 'w') as f:
                 f.write(str(self.node_list))

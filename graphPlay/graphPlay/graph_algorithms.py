@@ -127,6 +127,8 @@ def mitm_algorithm(graph):
         start +=1
         end-=1
     get_colouring(colours)
+    return colours
+
 
 def get_colouring(colours):
     print(f'\nColouring of graph with {len(colours.keys())} colours:')
