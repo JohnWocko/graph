@@ -255,17 +255,18 @@ class Graph:
         graph = nx.Graph()
 
         color_list = []
-        for i in range(len(colours)):
-            color_list.append('#%06X' % randint(0, 0xFFFFFF))
         colour_list = []
+
         if colours ==   1:
             for node in self.node_list:
                 #graph.add_node(node)
                 for connected_node in self.node_list[node][0]:
                     graph.add_edge(node,connected_node)
-            nx.draw(graph, node_color = 'blue', with_labels=True)
-            plt.show()
+            nx.draw(graph, node_color = '#%06X' % randint(0, 0xFFFFFF), with_labels=True)
+
         elif isinstance(colours, dict):
+            for i in range(len(colours)):
+                color_list.append('#%06X' % randint(0, 0xFFFFFF))
             for node in self.node_list:
                 #graph.add_node(node)
                 for connected_node in self.node_list[node][0]:
@@ -276,7 +277,7 @@ class Graph:
                     if g_node in colours[colour]:
                         colour_list.append(color_list[colour])
             nx.draw(graph,node_color=colour_list, with_labels=True)
-            plt.show()
+        plt.show()
 
 
     def is_fibbinary_num(n):

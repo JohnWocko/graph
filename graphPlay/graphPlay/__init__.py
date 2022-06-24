@@ -136,11 +136,11 @@ def console():
 
         if choice.upper() == 'CS':
             try:
-                for count,i in enumerate(range(int(input('\nPlease enter a lower limit ')),int(input('\nplease enter an upper limit')))):
-                    if count == 0 or i == 0:
+                for i in range(int(input('\nPlease enter a lower limit ')),int(input('\nplease enter an upper limit'))):
+                    if  i == 0:
                         continue
                     else:
-                        f = Graph.fib_graph(i*count)
+                        f = Graph.fib_graph(int(i*1.5))
                         graphs.append(f)
             except:
                 print('Invalid Input:\nInput not an int')
