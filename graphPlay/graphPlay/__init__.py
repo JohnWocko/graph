@@ -63,27 +63,9 @@ def create_graph(graphs):
             graphs.append(f)
 
     if answer.upper() == 'S':
-        s = Graph()
-        s.add_edge(0,1)
-        s.add_edge(0,3)
-        s.add_edge(0,7)
-        s.add_edge(0,2)
-        s.add_edge(1,2)
-        s.add_edge(1,4)
-        s.add_edge(1,8)
-        s.add_edge(2, 3)
-        s.add_edge(2, 4)
-        s.add_edge(2, 5)
-        s.add_edge(3, 5)
-        s.add_edge(3, 6)
-        s.add_edge(3, 7)
-        s.add_edge(4, 5)
-        s.add_edge(4, 8)
-        s.add_edge(5, 6)
-        s.add_edge(5, 8)
-        s.add_edge(6, 7)
-        s.add_edge(6, 8)
-        s.add_edge(7, 8)
+        s = Graph.read_graph({0:[{1,2,3,7},[]], 1: [{2,4,8},[] ], 2: [{3,4,5},[] ], 3: [{5,6,7},[] ], 4: [{5,8},[] ],
+                 5: [{6,8},[]], 6: [{7,8},[]], 7: [{8},[]]})
+
         graphs.append(s)
 
     if answer.upper() == 'Q':
@@ -117,7 +99,7 @@ def console():
                 graph.convert()
 
         if (choice.upper() =='E'):
-            break
+            quit()
 
         if choice.upper() == 'C':
             create_graph(graphs)
@@ -129,9 +111,21 @@ def console():
 
         if choice.upper() == 'A' and len(graphs) != 0:
             for graph in graphs:
-                print(graph)
+                print(f'\nRunning graph colouring algorithms on following Graph:\n{graph}\nMITM Algorithm:')
                 colours = graph_algorithms.mitm_algorithm(graph)
+                graph_algorithms.get_colouring(colours)
                 graph.convert(colours)
+
+                print(f'\nGreedy colouring:\t{graph}')
+                colours2 = graph_algorithms.greedy_colouring(graph)
+                graph_algorithms.get_colouring(colours2)
+                graph.convert(colours2)
+
+                print(f'\nSuper lazy colouring:\t{graph}')
+                colours3 = graph_algorithms.super_lazy_colouring(graph)
+                graph_algorithms.get_colouring(colours3)
+                graph.convert(colours3)
+
 
 
         if choice.upper() == 'CS':

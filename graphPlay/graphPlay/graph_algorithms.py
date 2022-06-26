@@ -76,6 +76,31 @@ def dfs (graph, starting_vertex, visited=set()):
                 dfs(graph, adj_node, visited)
             print(f'... {adj_node }', end=' ')
 
+def super_lazy_colouring(graph):
+    colours = OrderedDict()
+    for count,node in enumerate(graph.get_nodes()):
+        colours[count] = {node}
+    return colours
+
+
+def greedy_colouring(graph):
+    colours = OrderedDict()
+    colours[0] = {graph.get_nodes()[0]}
+
+    if graph.size <= 1:
+        print('Graph coloured using one colour')
+        return colours
+    for node in graph.get_nodes():
+        colour = 0
+        c = 0
+        for i in range(len(colours)):
+            if graph.node_list[node][0].isdisjoint(colours[i]):
+                colours[i].add(node)
+                c = 1
+                break
+        if c ==0:
+            colours[len(colours)] = {node}
+    return colours
 
 # Algorithm designed for my BSc Computer Science project to colour graphs greedily, performs in Big O = On^2 Time
 # so far has issues with graphs that doesn't have successive nodes
@@ -107,7 +132,6 @@ def mitm_algorithm(graph):
                 colours[len(colours)] = {vertices[start]}
 
         if start != end:
-            print(vertices[end])
             if graph.get_degree(vertices[end]) == 0 or graph.node_list[vertices[end]][0].isdisjoint(colours[0]) :
                 colours[0].add(vertices[end])
             elif graph.node_list[vertices[end]][0].isdisjoint(colours[1]):
@@ -126,12 +150,11 @@ def mitm_algorithm(graph):
 
         start +=1
         end-=1
-    get_colouring(colours)
     return colours
 
 
 def get_colouring(colours):
-    print(f'\nColouring of graph with {len(colours.keys())} colours:')
+    print(f'Colouring of graph with {len(colours.keys())} colours:')
     for colour in colours.keys():
         print('\n',colour, end = ' --> ')
         for node in colours[colour]:

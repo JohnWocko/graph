@@ -234,10 +234,7 @@ class Graph:
 
     def get_nodes(self):
         '''     '''
-        all_nodes = []
-        for node in self.node_list:
-            all_nodes.append(node)
-        return all_nodes
+        return list(self.node_list.keys())
 
     def display_adj_matrix(self):
         '''     '''
